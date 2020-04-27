@@ -27,6 +27,7 @@ namespace Dapr.Client
         {
             var daprGrpcPort = Environment.GetEnvironmentVariable("DAPR_GRPC_PORT") ?? defaultDaprGrpcPort;
             this.daprEndpoint = $"http://127.0.0.1:{daprGrpcPort}";
+            Console.WriteLine("ZZZ ====================================debug using endpoint '{0}'", this.daprEndpoint);
         }
 
         /// <summary>

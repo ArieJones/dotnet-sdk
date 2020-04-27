@@ -7,6 +7,7 @@ namespace DaprClient
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
     using Dapr.Client;
@@ -43,13 +44,13 @@ namespace DaprClient
             // This provides an example of how to invoke a method on another REST service that is listening on http.
             // To use it run RoutingService in this solution.
             // Invoke deposit operation on RoutingSample service by publishing event.
-            //await PublishDepositeEventToRoutingSampleAsync(client);
+            await PublishDepositeEventToRoutingSampleAsync(client);
 
             // Invoke deposit operation on RoutingSample service by POST.
-            //await InvokeWithdrawServiceOperationAsync(client);
+            await InvokeWithdrawServiceOperationAsync(client);
 
             // Invoke deposit operation on RoutingSample service by GET.
-            //await InvokeBalanceServiceOperationAsync(client);
+            await InvokeBalanceServiceOperationAsync(client);
             #endregion
 
         }
@@ -107,14 +108,15 @@ namespace DaprClient
         /// <returns></returns>
         internal static async Task InvokeWithdrawServiceOperationAsync(DaprClient client)
         {
+            Console.WriteLine("Invoking withdraw");
             var data = new { id = "17", amount = (decimal)10, };
 
-            // Add the verb to metadata if the method is other than a POST
-            var metaData = new Dictionary<string, string>();
-            metaData.Add("http.verb", "POST");
+            Debugger.Launch();
 
             // Invokes a POST method named "Withdraw" that takes input of type "Transaction" as define in the RoutingSample.
-            await client.InvokeMethodAsync<object>("routing", "Withdraw", data, metaData);
+            Console.WriteLine("invoking");
+            await client.InvokeMethodAsync<object>("routing", "order", data);            
+            //await client.InvokeMethodAsync<object>("rr", "foo", data, HTTPVerb.Post);
 
             Console.WriteLine("Completed");
         }
@@ -130,12 +132,10 @@ namespace DaprClient
         /// <returns></returns>
         internal static async Task InvokeBalanceServiceOperationAsync(DaprClient client)
         {
-           // Add the verb to metadata if the method is other than a POST
-            var metaData = new Dictionary<string, string>();
-            metaData.Add("http.verb", "GET");
+            Console.WriteLine("Invoking balance");
 
             // Invokes a GET method named "hello" that takes input of type "MyData" and returns a string.
-            var res = await client.InvokeMethodAsync<object>("routing", "17", metaData);
+            var res = await client.InvokeMethodAsync<object>("routing", "17", HTTPVerb.Get);
            
             Console.WriteLine($"Received balance {res}");
         }

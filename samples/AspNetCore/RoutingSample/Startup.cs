@@ -5,6 +5,7 @@
 
 namespace RoutingSample
 {
+    using System;
     using System.Text.Json;
     using System.Threading.Tasks;
     using Dapr;
@@ -78,11 +79,14 @@ namespace RoutingSample
 
                 endpoints.MapGet("{id}", Balance);
                 endpoints.MapPost("deposit", Deposit).WithTopic("deposit");
-                endpoints.MapPost("withdraw", Withdraw).WithTopic("withdraw");
+
+                // ZZZ this is confusing even if it's correct in a way because the client side is not using pubsub for this.
+                endpoints.MapPost("withdraw", Withdraw);//.WithTopic("withdraw");
             });
 
             async Task Balance(HttpContext context)
             {
+                Console.WriteLine("Enter Balance");
                 var client = context.RequestServices.GetRequiredService<DaprClient>();
 
                 var id = (string)context.Request.RouteValues["id"];
@@ -99,6 +103,7 @@ namespace RoutingSample
 
             async Task Deposit(HttpContext context)
             {
+                Console.WriteLine("Enter Deposit");
                 var client = context.RequestServices.GetRequiredService<DaprClient>();
 
                 var transaction = await JsonSerializer.DeserializeAsync<Transaction>(context.Request.Body, serializerOptions);
@@ -123,6 +128,7 @@ namespace RoutingSample
 
             async Task Withdraw(HttpContext context)
             {
+                Console.WriteLine("Enter Withdraw");
                 var client = context.RequestServices.GetRequiredService<DaprClient>();
 
                 var transaction = await JsonSerializer.DeserializeAsync<Transaction>(context.Request.Body, serializerOptions);

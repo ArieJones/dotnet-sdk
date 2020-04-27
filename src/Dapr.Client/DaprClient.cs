@@ -56,7 +56,8 @@ namespace Dapr.Client
         /// </summary>        
         /// <param name="appId">The Dapr application id to invoke the method on.</param>
         /// <param name="methodName">The name of the method to invoke.</param>        
-        /// <param name="metadata">A key/value pair to pass to the method to invoke.</param>
+        /// <param name="verb">The HTTP verb to invoke with.</param>
+        /// <param name="queryString">A set of key/value pairs that represent the query string.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> that can be used to cancel the operation.</param>
         /// <returns>A <see cref="Task" /> that will complete when the operation has completed.</returns>
         /// <remarks>If the target service is listening on http, a key value pair of http.verb and the verb must be added to the metadata parameter.
@@ -69,7 +70,8 @@ namespace Dapr.Client
         public abstract Task InvokeMethodAsync(
             string appId,
             string methodName,
-            Dictionary<string, string> metadata = default,
+            HTTPVerb verb = HTTPVerb.Post,
+            Dictionary<string, string> queryString = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -79,7 +81,8 @@ namespace Dapr.Client
         /// <param name="appId">The Dapr application id to invoke the method on.</param>
         /// <param name="methodName">The name of the method to invoke.</param>  
         /// <param name="data">Data to pass to the method</param>
-        /// <param name="metadata">A key/value pair to pass to the method to invoke.</param>
+        /// <param name="verb">The HTTP verb to invoke with.</param>
+        /// <param name="queryString">A set of key/value pairs that represent the query string.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> that can be used to cancel the operation.</param>
         /// <returns>A <see cref="ValueTask{T}" /> that will return the value when the operation has completed.</returns>
         /// <remarks>If the target service is listening on http, a key value pair of http.verb and the verb must be added to the metadata parameter.
@@ -93,7 +96,8 @@ namespace Dapr.Client
             string appId,
             string methodName,
             TRequest data,
-            Dictionary<string, string> metadata = default,
+            HTTPVerb verb = HTTPVerb.Post,
+            Dictionary<string, string> queryString = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -102,7 +106,8 @@ namespace Dapr.Client
         /// <typeparam name="TResponse">The type of the object in the response.</typeparam>
         /// <param name="appId">The Dapr application id to invoke the method on.</param>
         /// <param name="methodName">The name of the method to invoke.</param>         
-        /// <param name="metadata">A key/value pair to pass to the method to invoke.</param>
+        /// <param name="verb">The HTTP verb to invoke with.</param>
+        /// <param name="queryString">A set of key/value pairs that represent the query string.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> that can be used to cancel the operation.</param>
         /// <returns>A <see cref="ValueTask{T}" /> that will return the value when the operation has completed.</returns>
         /// <remarks>If the target service is listening on http, a key value pair of http.verb and the verb must be added to the metadata parameter.
@@ -115,7 +120,8 @@ namespace Dapr.Client
         public abstract ValueTask<TResponse> InvokeMethodAsync<TResponse>(
             string appId,
             string methodName,
-            Dictionary<string, string> metadata = default,
+            HTTPVerb verb = HTTPVerb.Post,
+            Dictionary<string, string> queryString = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -126,7 +132,8 @@ namespace Dapr.Client
         /// <param name="appId">The Dapr application id to invoke the method on.</param>
         /// <param name="methodName">The name of the method to invoke.</param>  
         /// <param name="data">Data to pass to the method</param>
-        /// <param name="metadata">A key/value pair to pass to the method to invoke.</param>
+        /// <param name="verb">The HTTP verb to invoke with.</param>
+        /// <param name="queryString">A set of key/value pairs that represent the query string.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken" /> that can be used to cancel the operation.</param>
         /// <returns>A <see cref="ValueTask{T}" /> that will return the value when the operation has completed.</returns>
         /// <remarks>If the target service is listening on http, a key value pair of http.verb and the verb must be added to the metadata parameter.
@@ -140,7 +147,8 @@ namespace Dapr.Client
             string appId,
             string methodName,
             TRequest data,
-            Dictionary<string, string> metadata = default,
+            HTTPVerb verb = HTTPVerb.Post,
+            Dictionary<string, string> queryString = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
